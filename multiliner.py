@@ -16,7 +16,7 @@ with open('output.txt', 'r', encoding='utf-8') as file:
 lines = content.split('</a>\n')
 print(lines)
 
-with open('readme.md', 'a', encoding='utf-8') as file:
+with open('readme.txt', 'a', encoding='utf-8') as file:
     file.write(
         '| Флаг         | Название страны | Обозначение '
         '|\n|--------------|----------------|-------------|\n')
@@ -30,5 +30,6 @@ with open('readme.md', 'a', encoding='utf-8') as file:
         short_pattern = r'href=[\'"]?(.*?)[\'"]?"'
         short_match = re.search(short_pattern, line)
         short_name = short_match.group(1).split('/')[-2]
-        stamp = (f'# | ![{country}](<img width="32" height="21" src="{flag_url}") | {country} | {short_name} |')
+        stamp = (f'# | ![{country}](<img src="{flag_url}" width="32" height="21">) | '
+                 f'{country} | {short_name} |')
         file.write(stamp + '\n')
