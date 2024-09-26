@@ -47,7 +47,7 @@ if __name__ == '__main__':
     clean_folder('result')
 
     base_url = 'https://radio.menu'
-    country = input('\nCountry: ').lower()
+    country = input('\nEnter short country code: ').lower()
 
     response = requests.get(base_url + f'/stations/facet/country/{country}/')
     soup = BeautifulSoup(response.text, 'html.parser')
