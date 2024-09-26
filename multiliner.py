@@ -1,5 +1,6 @@
 import re
 
+
 # with open('all.txt', 'r', encoding='utf-8') as file:
 #     content = file.read()
 #
@@ -14,7 +15,6 @@ with open('output.txt', 'r', encoding='utf-8') as file:
     content = file.read()
 
 lines = content.split('</a>\n')
-print(lines)
 
 with open('readme.txt', 'a', encoding='utf-8') as file:
     file.write(
@@ -30,6 +30,7 @@ with open('readme.txt', 'a', encoding='utf-8') as file:
         short_pattern = r'href=[\'"]?(.*?)[\'"]?"'
         short_match = re.search(short_pattern, line)
         short_name = short_match.group(1).split('/')[-2]
-        stamp = (f'# | ![{country}](<img src="{flag_url}" width="32" height="21">) | '
+        stamp = (f'# | ![{country}](<{flag_url}" width="32" height="21">) | '
                  f'{country} | {short_name} |')
         file.write(stamp + '\n')
+
