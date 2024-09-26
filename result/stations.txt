@@ -1,0 +1,4 @@
+('Radio Çar Tarapdan', 'https://radio.menu/stations/turkmentv-gov-tm-radio-car-tarapdan/')
+('Radio Miras', 'https://radio.menu/stations/turkmentv-gov-tm-radio-miras/')
+('Radio Owaz', 'https://radio.menu/stations/turkmentv-gov-tm-radio-owaz/')
+('Radio Watan', 'https://radio.menu/stations/turkmentv-gov-tm-radio-watan/')

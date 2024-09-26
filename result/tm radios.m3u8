@@ -1,0 +1,9 @@
+#EXTM3U8
+# EXTINF:-1, Radio Çar Tarapdan
+https://radio.telecom.tm:8020/radio.mp3
+# EXTINF:-1, Radio Miras
+https://radio.telecom.tm:8030/radio.mp3
+# EXTINF:-1, Radio Owaz
+https://radio.telecom.tm:8000/radio.mp3
+# EXTINF:-1, Radio Watan
+https://radio.telecom.tm:8010/radio.mp3
