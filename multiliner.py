@@ -1,4 +1,6 @@
+import os
 import re
+import time
 
 
 # with open('all.txt', 'r', encoding='utf-8') as file:
@@ -11,12 +13,20 @@ import re
 #         file.write(line + '\n')
 
 
+def txt_to_md(source_file):
+    base = os.path.splitext(source_file)[0]
+    new_file = f"{base}.md"
+    time.sleep(5)
+    os.rename(source_file, new_file)
+    return new_file
+
+
 with open('output.txt', 'r', encoding='utf-8') as file:
     content = file.read()
 
 lines = content.split('</a>\n')
 
-with open('readme.txt', 'a', encoding='utf-8') as file:
+with open('readme.txt', 'w', encoding='utf-8') as file:
     file.write(
         '| Флаг         | Название страны | Обозначение '
         '|\n|--------------|----------------|-------------|\n')
@@ -30,5 +40,7 @@ with open('readme.txt', 'a', encoding='utf-8') as file:
         short_pattern = r'href=[\'"]?(.*?)[\'"]?"'
         short_match = re.search(short_pattern, line)
         short_name = short_match.group(1).split('/')[-2]
-        stamp = f'# | <img src="{flag_url}" alt="Afghanistan" width="32" height="21"> | {country} | {short_name} |'
+        stamp = f'# | <img src="{flag_url}" alt="{country}" width="32" height="21"> | {country} | {short_name} |'
         file.write(stamp + '\n')
+
+txt_to_md('readme.txt')

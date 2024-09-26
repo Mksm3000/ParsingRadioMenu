@@ -237,4 +237,3 @@
 <a title="Zambia" href="https://radio.menu/stations/facet/country/zm/"><img width="32" height="21" src="https://radio.menu/assets/img/flags/zm.svg" alt="Zambia" title="Zambia"></div> ZAMBIA (60)</a>
 <a title="Zimbabwe" href="https://radio.menu/stations/facet/country/zw/"><img width="32" height="21" src="https://radio.menu/assets/img/flags/zw.svg" alt="Zimbabwe" title="Zimbabwe"></div> ZIMBABWE (16)</a>
 <a title="Åland Islands" href="https://radio.menu/stations/facet/country/ax/"><img width="32" height="21" src="https://radio.menu/assets/img/flags/ax.svg" alt="Åland Islands" title="Åland Islands"></div> ÅLAND ISLANDS (1)</a>
-</div>
