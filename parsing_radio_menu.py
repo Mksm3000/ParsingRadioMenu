@@ -24,6 +24,8 @@ def get_link(data: list):
         link_match = re.search(link_pattern, block)
         if link_match:
             url = link_match.group(1)
+            if '?n=' in url:
+                url = url.split('?n=')[0]
             return url
 
 
@@ -34,6 +36,31 @@ def txt_to_m3u8(source_file):
     return new_file
 
 
+def normalify(url):
+    return url.replace('\n', '').replace('\'', '').replace('(', '').replace(')', '').split(', ')
+
+
+def pagination_check(raw_response) -> int:
+    if 'data-paged' in raw_response.text:
+        return raw_response.text.count('data-paged')-1
+    else:
+        return 1
+
+
+def pairify(new_response) -> list:
+    temp_list = []
+    items = [x for x in new_response.text.split('\n') if 'title="Radio station ' in x]
+    for item in items:
+        pattern = r'title="Radio station (.*?)" href="(.*?)"'
+        match = re.search(pattern, item)
+        if match:
+            name = match.group(1).replace(',', '')
+            link = base_url + match.group(2)
+            patch: tuple[str, str] = (name, link)
+            temp_list.append(patch)
+    return temp_list
+
+
 if __name__ == '__main__':
     clean_folder('result')
 
@@ -41,18 +68,18 @@ if __name__ == '__main__':
     country = input('\nEnter short country code: ').lower()
 
     response = requests.get(base_url + f'/stations/facet/country/{country}/')
-    items = [x for x in response.text.split('\n') if 'title="Radio station ' in x]
-
+    print(f'Станции найдены на {pagination_check(response)} странице(ах)')
     STATIONS = list()
 
-    for item in items:
-        pattern = r'title="Radio station (.*?)" href="(.*?)"'
-        match = re.search(pattern, item)
-        if match:
-            name = match.group(1)
-            link = base_url + match.group(2)
-            patch = (name, link)
-            STATIONS.append(patch)
+    if pagination_check(response) == 1:
+        list_of_pairs = pairify(response)
+        STATIONS.extend(list_of_pairs)
+    else:
+        for num in range(pagination_check(response)):
+            response = requests.get(base_url + f'/stations/facet/country/'
+                                               f'{country}/paged/{num+1}/')
+            list_of_pairs = pairify(response)
+            STATIONS.extend(list_of_pairs)
 
     print('Список "STATIONS" готов')
 
@@ -71,11 +98,7 @@ if __name__ == '__main__':
 
             for index, line in enumerate(lines):
                 print(f'Добавлена станция №{index + 1} из {len(lines)}')
-
-                station = line.replace('\n', '').replace('\'',
-                                                         '').replace('(',
-                                                                     '').replace(
-                    ')', '').split(', ')
+                station = normalify(line)
                 pure_link = get_link(station)
                 file.write(f'# EXTINF:-1, {station[0]}\n{pure_link}\n')
 
