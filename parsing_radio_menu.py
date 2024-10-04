@@ -37,12 +37,14 @@ def txt_to_m3u8(source_file):
 
 
 def normalify(url):
-    return url.replace('\n', '').replace('\'', '').replace('(', '').replace(')', '').split(', ')
+    return url.replace('\n', '').replace('\'', '').replace('(', '').replace(')',
+                                                                            '').split(
+        ', ')
 
 
 def pagination_check(raw_response) -> int:
     if 'data-paged' in raw_response.text:
-        return raw_response.text.count('data-paged')-1
+        return raw_response.text.count('data-paged') - 1
     else:
         return 1
 
@@ -77,20 +79,20 @@ if __name__ == '__main__':
     else:
         for num in range(pagination_check(response)):
             response = requests.get(base_url + f'/stations/facet/country/'
-                                               f'{country}/paged/{num+1}/')
+                                               f'{country}/paged/{num + 1}/')
             list_of_pairs = pairify(response)
             STATIONS.extend(list_of_pairs)
 
-    print('Список "STATIONS" готов')
+    # print('Список "STATIONS" готов')
 
     with open(file='result/stations.txt', mode='w', encoding='utf-8') as file:
         for element in STATIONS:
             file.write(str(element) + '\n')
 
-    print('Файл "stations.txt" готов')
+    print('Файл "result/stations.txt" готов')
 
     with open(file=f'result/{country} radios.txt', mode='a', encoding='utf-8') as file:
-        file.write('#EXTM3U8\n')
+        file.write('#EXTM3U\n')
 
         with open(file='result/stations.txt', mode='r', encoding='utf-8') as st_file:
             lines = st_file.readlines()
@@ -100,7 +102,7 @@ if __name__ == '__main__':
                 print(f'Добавлена станция №{index + 1} из {len(lines)}')
                 station = normalify(line)
                 pure_link = get_link(station)
-                file.write(f'# EXTINF:-1, {station[0]}\n{pure_link}\n')
+                file.write(f'#EXTINF:-1, {station[0]}\n{pure_link}\n')
 
     txt_to_m3u8(f'result/{country} radios.txt')
 
