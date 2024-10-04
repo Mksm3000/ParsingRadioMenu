@@ -36,10 +36,13 @@ def txt_to_m3u8(source_file):
     return new_file
 
 
-def normalify(url):
-    return url.replace('\n', '').replace('\'', '').replace('(', '').replace(')',
-                                                                            '').split(
-        ', ')
+def normalify(url) -> list:
+    pattern = r"('(.*?)', '(.*?)')"
+    match = re.search(pattern, url)
+    if match:
+        name = match.group(2)
+        link = match.group(3)
+        return [name, link]
 
 
 def pagination_check(raw_response) -> int:
